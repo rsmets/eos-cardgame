@@ -17,7 +17,7 @@ CONTRACT cardgame : public contract {
   private:
     TABLE user_info {
       name    username;
-      string  text;
+      //string  text;
       int win_count = 0;
       int lost_count = 0;
       

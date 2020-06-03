@@ -8,7 +8,7 @@ ACTION cardgame::trymessage(name sender, name recipient) {
 }
 
 ACTION cardgame::hi(name user, string message) {
-
+/*
   // Init the _message table
   //users_table _usersT(get_self(), get_self().value);
 
@@ -26,8 +26,8 @@ ACTION cardgame::hi(name user, string message) {
       msg.text = message;
     });
   }
-
-  //require_auth(get_self()); // this should be uncommented for the tutorial to pick up!
+*/
+  require_auth(get_self()); // this should be uncommented for the tutorial to pick up!
   //require_auth(user);
   print ("hello, ", name{user});
 }
