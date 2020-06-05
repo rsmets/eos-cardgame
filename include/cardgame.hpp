@@ -14,14 +14,15 @@ CONTRACT cardgame : public contract {
     ACTION trymessage(name sender, name recipient);
     ACTION hi(name from, string text);
 
+    //ACTION login(name user, string message);
     ACTION login(name user);
 
   private:
     TABLE user_info {
       name    username;
       //string  text;
-      uint64_t win_count = 0;
-      uint64_t lost_count = 0;
+      uint64_t win_count = 1;
+      uint64_t lost_count = 2;
       
       auto primary_key() const { return username.value; };
     };
