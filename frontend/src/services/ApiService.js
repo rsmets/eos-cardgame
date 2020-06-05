@@ -76,7 +76,7 @@ class ApiService {
         "limit": 1,
         "lower_bound": username,
       });
-      return result.rows[0];
+      return result.rows[0]; //eosjs returns more than just rows... but here only care about that
     } catch (err) {
       console.error(err);
     }
