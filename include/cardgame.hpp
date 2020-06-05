@@ -19,45 +19,45 @@ CONTRACT cardgame : public contract {
 
   private:
 
+    enum game_status: int8_t {
+      ONGOING = 0,
+      PLAYER_WON = 1,
+      PLAYER_LOST = -1
+    };
+    
     enum card_type: uint8_t {
-      EMTPY = 0,
+      EMPTY = 0, // for empty slot in player's hand
       FIRE = 1,
       WOOD = 2,
       WATER = 3,
       NEUTRAL = 4,
       VOID = 5
     };
-
+    
     struct card {
       uint8_t type;
       uint8_t attack_point;
     };
 
     const map<uint8_t, card> card_dict = {
-      {0, {EMPTY, 1} },
-      {1, {FIRE, 1} },
-      {2, {FIRE, 1} },
-      {3, {FIRE, 2} },
-      {4, {FIRE, 2} },
-      {5, {FIRE, 3} },
-      {6, {WOOD, 1} },
-      {7, {WOOD, 1} },
-      {8, {WOOD, 2} },
-      {9, {WOOD, 2} },
-      {10, {WOOD, 3} },
-      {11, {WATER, 1} },
-      {12, {WATER, 1} },
-      {13, {WATER, 2} },
-      {14, {WATER, 2} },
-      {15, {WATER, 3} },
-      {16, {NEUTRAL, 3} },
-      {17, {VOID, 0} }
-    };
-    
-    enum game_status: int8_t {
-      ONGOING = 0,
-      PLAYER_WON = 1,
-      PLAYER_LOST = -1
+      { 0, {EMPTY, 0} },       
+      { 1, {FIRE, 1} },
+      { 2, {FIRE, 1} },
+      { 3, {FIRE, 2} },
+      { 4, {FIRE, 2} },
+      { 5, {FIRE, 3} },
+      { 6, {WOOD, 1} },
+      { 7, {WOOD, 1} },
+      { 8, {WOOD, 2} },
+      { 9, {WOOD, 2} },
+      { 10, {WOOD, 3} }, 
+      { 11, {WATER, 1} },
+      { 12, {WATER, 1} },
+      { 13, {WATER, 2} },
+      { 14, {WATER, 2} },
+      { 15, {WATER, 3} },
+      { 16, {NEUTRAL, 3} }, 
+      { 17, {VOID, 0} }
     };
 
     struct game {
