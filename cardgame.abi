@@ -4,6 +4,56 @@
     "types": [],
     "structs": [
         {
+            "name": "game",
+            "base": "",
+            "fields": [
+                {
+                    "name": "life_player",
+                    "type": "int8"
+                },
+                {
+                    "name": "life_ai",
+                    "type": "int8"
+                },
+                {
+                    "name": "deck_player",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "ai_player",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "hand_player",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "hand_ai",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "selected_card_player",
+                    "type": "uint8"
+                },
+                {
+                    "name": "selected_card_ai",
+                    "type": "uint8"
+                },
+                {
+                    "name": "status",
+                    "type": "int8"
+                },
+                {
+                    "name": "life_lost_player",
+                    "type": "uint8"
+                },
+                {
+                    "name": "life_lost_ai",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
             "name": "game_info",
             "base": "",
             "fields": [
@@ -74,6 +124,10 @@
                 {
                     "name": "lost_count",
                     "type": "uint64"
+                },
+                {
+                    "name": "game_data",
+                    "type": "game"
                 }
             ]
         }
