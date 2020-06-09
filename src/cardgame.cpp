@@ -1,6 +1,31 @@
 #include <cardgame.hpp>
 #include "gameplay.cpp"
 
+ACTION cardgame::playcard(name username, uint8_t player_card_hand_idx) {
+  // ensure that the player has auth'd this cardgame
+  require_auth(username);
+
+  // check the card has been selected is valid
+  check(player_card_hand_idx < 4, "playcard: incorrect hand index.");
+
+  // verify that the game status is suitable for the player to play a card
+  auto& user_info = _usersT.get(username.value, "playcard: user doesn't exist.");
+
+  check (user_info.game_data.status == ONGOING, "playcard: incorrect game status");
+  check (user_info.game_data.selected_card_player == 0, "play has already played a card this turn.");
+  
+  // assign the selected card from the player hand.
+  _usersT.modify(user_info, username, [&](auto& modified_user) {
+    game& game_data = modified_user.game_data;
+
+    game_data.selected_card_player = game_data.hand_player[player_card_hand_idx];
+   // DO NOT want to this: game_data.hand_player.erase(game_data.hand_player.begin() + player_card_hand_idx);
+   // would rather just set that position to 0
+   game_data.hand_player[player_card_hand_idx] = 0;
+  });
+
+
+}
 
 ACTION cardgame::startgame(name username) {
   require_auth(username);
@@ -137,4 +162,4 @@ void cardgame::drawCard(vector<uint8_t>& deck, vector<uint8_t>& hand) {
 
 }
 
-EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login)(startgame))
+EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login)(startgame)(playcard))

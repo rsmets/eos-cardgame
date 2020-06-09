@@ -19,6 +19,7 @@ CONTRACT cardgame : public contract {
     //ACTION login(name user, string message);
     ACTION login(name user);
     ACTION startgame(name user);
+    ACTION playcard(name user, uint8_t player_card_index);
 
   private:
 

@@ -96,6 +96,20 @@
             ]
         },
         {
+            "name": "playcard",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "player_card_index",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
             "name": "seed",
             "base": "",
             "fields": [
@@ -165,6 +179,11 @@
         {
             "name": "login",
             "type": "login",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "playcard",
+            "type": "playcard",
             "ricardian_contract": ""
         },
         {
