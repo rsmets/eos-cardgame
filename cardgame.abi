@@ -96,6 +96,20 @@
             ]
         },
         {
+            "name": "seed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "value",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
             "name": "trymessage",
             "base": "",
             "fields": [
@@ -153,6 +167,13 @@
         {
             "name": "games",
             "type": "game_info",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "seed",
+            "type": "seed",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

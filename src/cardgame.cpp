@@ -60,4 +60,33 @@ ACTION cardgame::login(name user) {
   // if the user does not exist then we want to create a new record for the user
 }
 
+// Simple Pseudo Random Number Algorithm: randomly pick a number within 0 to n-1
+int cardgame::random(const int range) {
+  // Find the existing seed. begin() gets an iterator pointing to the first record in a table 
+  auto seed_iterator = _seed.begin();
+ 
+  // Initialize the seed with default value if it is not found
+  // _seed.end() is a position after the last record, so if begin() = end(), there are no records
+  if (seed_iterator == _seed.end()) {
+    seed_iterator = _seed.emplace( _self, [&]( auto& seed ) { });
+  } // _self is paying the RAM & the lamba (aka anonymous) function to write the new record
+ 
+  // Generate a new seed value using the existing seed value
+  // % is the modulus operator, which returns the *remainder* after division.
+  // The modulus operator is very useful when you don't want to exceed a certain number
+  int prime = 65537;
+  auto new_seed_value = (seed_iterator->value + current_time_point().sec_since_epoch()) % prime;
+  
+  // Store the updated seed value in the table
+  _seed.modify( seed_iterator, _self, [&]( auto& s ) {
+    s.value = new_seed_value;
+  }); // seed_iterator is being modified, _self is paying the RAM & the lamba (aka anonymous) function to write the new record
+  
+  // Get the random result in desired range
+  // Notice the modulus % operator lets us be sure that the
+  // result is less than "range"
+  int random_result = new_seed_value % range;
+  return random_result;
+}
+
 EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login))

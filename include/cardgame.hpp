@@ -1,4 +1,5 @@
 #include <eosio/eosio.hpp>
+#include <eosio/system.hpp>
 
 using namespace std;
 using namespace eosio;
@@ -8,7 +9,8 @@ CONTRACT cardgame : public contract {
     using contract::contract;
     cardgame(name receiver, name code, datastream<const char*> ds):contract(receiver, code, ds),
     _usersT(receiver, receiver.value),
-    _games(receiver, receiver.value)
+    _games(receiver, receiver.value),
+    _seed(receiver, receiver.value)
     {}
 
     ACTION trymessage(name sender, name recipient);
@@ -18,6 +20,8 @@ CONTRACT cardgame : public contract {
     ACTION login(name user);
 
   private:
+
+    int random(const int range);
 
     enum game_status: int8_t {
       ONGOING = 0,
@@ -33,31 +37,31 @@ CONTRACT cardgame : public contract {
       NEUTRAL = 4,
       VOID = 5
     };
-    
+
     struct card {
       uint8_t type;
       uint8_t attack_point;
     };
 
     const map<uint8_t, card> card_dict = {
-      { 0, {EMPTY, 0} },       
-      { 1, {FIRE, 1} },
-      { 2, {FIRE, 1} },
-      { 3, {FIRE, 2} },
-      { 4, {FIRE, 2} },
-      { 5, {FIRE, 3} },
-      { 6, {WOOD, 1} },
-      { 7, {WOOD, 1} },
-      { 8, {WOOD, 2} },
-      { 9, {WOOD, 2} },
-      { 10, {WOOD, 3} }, 
-      { 11, {WATER, 1} },
-      { 12, {WATER, 1} },
-      { 13, {WATER, 2} },
-      { 14, {WATER, 2} },
-      { 15, {WATER, 3} },
-      { 16, {NEUTRAL, 3} }, 
-      { 17, {VOID, 0} }
+      {0, {EMPTY, 1} },
+      {1, {FIRE, 1} },
+      {2, {FIRE, 1} },
+      {3, {FIRE, 2} },
+      {4, {FIRE, 2} },
+      {5, {FIRE, 3} },
+      {6, {WOOD, 1} },
+      {7, {WOOD, 1} },
+      {8, {WOOD, 2} },
+      {9, {WOOD, 2} },
+      {10, {WOOD, 3} },
+      {11, {WATER, 1} },
+      {12, {WATER, 1} },
+      {13, {WATER, 2} },
+      {14, {WATER, 2} },
+      {15, {WATER, 3} },
+      {16, {NEUTRAL, 3} },
+      {17, {VOID, 0} }
     };
 
     struct game {
@@ -100,7 +104,16 @@ CONTRACT cardgame : public contract {
     // user_info is referring to what pattern this will follow
     // users_table is the name of the type we just created
 
+    TABLE seed {
+      uint64_t    key = 1;
+      uint64_t value =1;
+      
+      auto primary_key() const { return key; };
+    };
+    typedef multi_index<name("seed"), seed> seed_table;
+
 
     users_table _usersT;
     games_table _games;
+    seed_table _seed;
 };
