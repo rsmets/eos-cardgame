@@ -18,10 +18,12 @@ CONTRACT cardgame : public contract {
 
     //ACTION login(name user, string message);
     ACTION login(name user);
+    ACTION startgame(name user);
 
   private:
 
     int random(const int range);
+    void drawCard(vector<uint8_t>& deck, vector<uint8_t>& hand) ;
 
     enum game_status: int8_t {
       ONGOING = 0,
@@ -68,7 +70,7 @@ CONTRACT cardgame : public contract {
       int8_t life_player = 5;
       int8_t life_ai = 5;
       vector<uint8_t> deck_player = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17}; // vector is just an unbounded (size) array
-      vector<uint8_t> ai_player = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17}; // vector is just an unbounded (size) array
+      vector<uint8_t> deck_ai = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17}; // vector is just an unbounded (size) array
       vector<uint8_t> hand_player = {0,0,0,0};
       vector<uint8_t> hand_ai = {0,0,0,0};
       uint8_t selected_card_player = 0;
@@ -81,8 +83,8 @@ CONTRACT cardgame : public contract {
     TABLE user_info {
       name    username;
       //string  text;
-      uint64_t win_count = 1;
-      uint64_t lost_count = 2;
+      uint64_t win_count = 0;
+      uint64_t lost_count = 0;
       game game_data;
       
       auto primary_key() const { return username.value; };
