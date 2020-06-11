@@ -119,4 +119,13 @@ CONTRACT cardgame : public contract {
     users_table _usersT;
     games_table _games;
     seed_table _seed;
+
+    int ai_best_card_wins_strategy (const int ai_attack_point, const int player_attack_point);
+    int ai_min_loss_strategy (const int ai_attack_point, const int player_attack_point);
+    int ai_points_tally_strategy (const int ai_attack_point, const int player_attack_point);
+    int ai_loss_prevention_strategy (const int8_t life_ai, const int ai_attack_point, const int player_attack_point);
+
+    int ai_choose_card (const game& game_data);
+    int calculate_attack_point(const card& card1, const card& card2);
+    int calculate_ai_card_score(const int strategy_idx, const uint8_t life_ai, const card& ai_card, vector<uint8_t> hand_player);
 };
