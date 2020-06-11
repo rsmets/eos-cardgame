@@ -34,6 +34,15 @@ ACTION cardgame::playcard(name username, uint8_t player_card_hand_idx) {
   });
 }
 
+ACTION cardgame::endgame(name username) {
+  require_auth(username);
+
+  auto& user = _usersT.get(username.value, "no user.");
+  _usersT.modify(user, username, [&](auto& modified_user) {
+    modified_user.game_data = game();
+  });
+}
+
 ACTION cardgame::nextround(name username) {
   require_auth(username);
 
@@ -199,4 +208,4 @@ void cardgame::drawCard(vector<uint8_t>& deck, vector<uint8_t>& hand) {
 
 }
 
-EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login)(startgame)(playcard)(nextround))
+EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login)(startgame)(playcard)(nextround)(endgame))

@@ -4,6 +4,16 @@
     "types": [],
     "structs": [
         {
+            "name": "endgame",
+            "base": "",
+            "fields": [
+                {
+                    "name": "username",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "game",
             "base": "",
             "fields": [
@@ -181,6 +191,11 @@
         }
     ],
     "actions": [
+        {
+            "name": "endgame",
+            "type": "endgame",
+            "ricardian_contract": ""
+        },
         {
             "name": "hi",
             "type": "hi",

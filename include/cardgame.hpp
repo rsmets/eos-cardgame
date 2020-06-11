@@ -21,6 +21,7 @@ CONTRACT cardgame : public contract {
     ACTION startgame(name user);
     ACTION playcard(name user, uint8_t player_card_index);
     ACTION nextround(name user);
+    ACTION endgame(name username);
 
   private:
 
