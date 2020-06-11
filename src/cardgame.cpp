@@ -18,13 +18,19 @@ ACTION cardgame::playcard(name username, uint8_t player_card_hand_idx) {
   _usersT.modify(user_info, username, [&](auto& modified_user) {
     game& game_data = modified_user.game_data;
 
+  // Player selects a card
     game_data.selected_card_player = game_data.hand_player[player_card_hand_idx];
    // DO NOT want to this: game_data.hand_player.erase(game_data.hand_player.begin() + player_card_hand_idx);
    // would rather just set that position to 0
    game_data.hand_player[player_card_hand_idx] = 0;
+
+  // AI picks a card
+  int ai_card_hand_idx = ai_choose_card(game_data);
+  game_data.selected_card_ai = game_data.hand_ai[ai_card_hand_idx];
+  game_data.hand_ai[ai_card_hand_idx] = 0; // setting the selected card spot to empty
+
+   resolve_selected_cards(game_data);
   });
-
-
 }
 
 ACTION cardgame::startgame(name username) {

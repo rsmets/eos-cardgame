@@ -128,4 +128,6 @@ CONTRACT cardgame : public contract {
     int ai_choose_card (const game& game_data);
     int calculate_attack_point(const card& card1, const card& card2);
     int calculate_ai_card_score(const int strategy_idx, const uint8_t life_ai, const card& ai_card, vector<uint8_t> hand_player);
+
+    void resolve_selected_cards(game& game_data);
 };

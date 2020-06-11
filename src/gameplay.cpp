@@ -112,3 +112,33 @@ int cardgame::calculate_attack_point(const card& card1, const card& card2) {
 
     return result;
 }
+
+// resolve selected cards aka update the damage dealt
+void cardgame::resolve_selected_cards(game& game_data) {
+
+    const auto player_card = card_dict.at(game_data.selected_card_player);
+    const auto ai_card = card_dict.at(game_data.selected_card_ai);
+
+    // VOID cards skipp all damage calculation
+    if (player_card.type == VOID || ai_card.type == VOID) return;
+
+    int player_attack_point = calculate_attack_point(player_card, ai_card);
+    int ai_attack_point = calculate_attack_point(ai_card, player_card);
+
+    // damage calculation
+    // deal damage ot ai if the player's card attack points are higher
+    // deal damage to player if the ai's AP are higher
+
+    if (player_attack_point > ai_attack_point) {
+        int diff = player_attack_point - ai_attack_point;
+        game_data.life_lost_ai = diff;
+        game_data.life_ai -= diff;
+
+    } else if (player_attack_point < ai_attack_point) {
+        int diff = ai_attack_point - player_attack_point;
+        game_data.life_lost_player = diff;
+        game_data.life_player -= diff;
+    }
+
+    
+}
