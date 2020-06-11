@@ -20,6 +20,7 @@ CONTRACT cardgame : public contract {
     ACTION login(name user);
     ACTION startgame(name user);
     ACTION playcard(name user, uint8_t player_card_index);
+    ACTION nextround(name user);
 
   private:
 
@@ -130,4 +131,6 @@ CONTRACT cardgame : public contract {
     int calculate_ai_card_score(const int strategy_idx, const uint8_t life_ai, const card& ai_card, vector<uint8_t> hand_player);
 
     void resolve_selected_cards(game& game_data);
+
+    void update_game_status(user_info& user_data);
 };

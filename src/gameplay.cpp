@@ -142,3 +142,43 @@ void cardgame::resolve_selected_cards(game& game_data) {
 
     
 }
+
+void cardgame::update_game_status(user_info& user_data) { // passing by REFERENCE so can make mods directly on it.*****
+    game& game_data = user_data.game_data;
+
+    
+    if (game_data.life_ai <= 0) {
+        // check ai's life, life_ai
+        game_data.status = PLAYER_WON;
+    } else if (game_data.life_player <= 0) {
+        // check player's life, life_player
+        game_data.status = PLAYER_LOST;
+    } else {
+        // check to make sure players still have cards
+        // if one of the players runs out of cards, the other has too.
+        const auto is_empty_slot = [&](const auto& id) {
+            return card_dict.at(id).type == EMPTY;
+        };
+
+//        bool player_finished == std::all_of(first, last, test); // runs test over the first to last element of vector
+        bool player_finished = std::all_of(game_data.hand_player.begin(), game_data.hand_player.end(), is_empty_slot); // runs test over the first to last element of vector
+        bool ai_finished = std::all_of(game_data.hand_ai.begin(), game_data.hand_ai.end(), is_empty_slot); // runs test over the first to last element of vector
+
+        if (player_finished || ai_finished) {
+            //compare life totals and see who won
+            if (game_data.life_player > game_data.life_ai) {
+                game_data.status = PLAYER_WON;
+            } else
+                game_data.status = PLAYER_LOST;
+            }
+        }
+    
+
+    //update the player's win and lost count to match
+    if (game_data.status == PLAYER_WON) {
+        user_data.win_count++;
+    } else if (game_data.status == PLAYER_LOST) {
+        user_data.lost_count++;
+    }
+
+}

@@ -30,7 +30,38 @@ ACTION cardgame::playcard(name username, uint8_t player_card_hand_idx) {
   game_data.hand_ai[ai_card_hand_idx] = 0; // setting the selected card spot to empty
 
    resolve_selected_cards(game_data);
+   update_game_status(modified_user);
   });
+}
+
+ACTION cardgame::nextround(name username) {
+  require_auth(username);
+
+  auto& user = _usersT.get(username.value, "this user doesn't exist");
+
+  // verify game status ensure ONGOING
+  check (user.game_data.status == ONGOING, "must be not be ongoing.");
+
+  check(user.game_data.selected_card_player != 0 && user.game_data.selected_card_ai != 0, "you need to select a card first!");
+
+  _usersT.modify(user, username, [&](auto& modified_user) {
+
+    game& game_data = modified_user.game_data;
+    // reset life list varaibles and selected cards variables
+    game_data.life_lost_player = 0;
+    game_data.life_lost_ai = 0;
+    game_data.selected_card_ai = 0;
+    game_data.selected_card_player = 0;
+
+    
+    if (game_data.deck_player.size() > 0) {
+      // draw a card for the player and the ai
+      drawCard(game_data.deck_player, game_data.hand_player);
+      drawCard(game_data.deck_ai, game_data.hand_ai);
+    }
+  });
+
+  
 }
 
 ACTION cardgame::startgame(name username) {
@@ -168,4 +199,4 @@ void cardgame::drawCard(vector<uint8_t>& deck, vector<uint8_t>& hand) {
 
 }
 
-EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login)(startgame)(playcard))
+EOSIO_DISPATCH(cardgame, (hi)(trymessage)(login)(startgame)(playcard)(nextround))
